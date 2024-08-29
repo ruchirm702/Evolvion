@@ -6,7 +6,6 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
-
 import java.util.Date;
 
 @MappedSuperclass
@@ -21,9 +20,11 @@ public abstract class BaseEntity {
     private Long id;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false, updatable = false)
     private Date createdAt = new Date();
 
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
     private Date updatedAt = new Date();
 
     @PreUpdate
