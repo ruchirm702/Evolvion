@@ -16,6 +16,6 @@ public class InvoiceDTO {
     private String invoiceNumber;
     private Double amount;
     private InvoiceStatus status;
-    private String createdAt;  // String for flexibility in formatting
+    private String createdAt;  // Change to LocalDateTime for better date handling
     private String updatedAt;
 }

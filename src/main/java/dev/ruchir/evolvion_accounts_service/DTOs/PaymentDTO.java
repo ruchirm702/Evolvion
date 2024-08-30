@@ -16,6 +16,6 @@ public class PaymentDTO {
     private String paymentMethod;
     private Double amount;
     private PaymentStatus status;
-    private String createdAt;  // String for flexibility in formatting
+    private String createdAt;  // Change to LocalDateTime for better date handling
     private String updatedAt;
 }

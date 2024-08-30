@@ -16,6 +16,6 @@ public class ExpenseDTO {
     private String description;
     private Double amount;
     private ExpenseCategory category;
-    private String createdAt;  // String for flexibility in formatting
+    private String createdAt;  // Change to LocalDateTime for better date handling
     private String updatedAt;
 }
