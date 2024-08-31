@@ -9,6 +9,8 @@ import dev.ruchir.evolvion_accounts_service.controller_advise.Invoice_Exceptions
 import dev.ruchir.evolvion_accounts_service.controller_advise.Payment_Exceptions.PaymentCreationException;
 import dev.ruchir.evolvion_accounts_service.controller_advise.Payment_Exceptions.PaymentNotFoundException;
 import dev.ruchir.evolvion_accounts_service.controller_advise.Payment_Exceptions.PaymentUpdateException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -20,6 +22,8 @@ import java.util.UUID;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(ExpenseUpdateException.class)
     public ResponseEntity<ErrorResponse> handleExpenseUpdateException(ExpenseUpdateException ex, WebRequest request) {
