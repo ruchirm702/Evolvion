@@ -4,4 +4,7 @@ public class InvoiceCreationException extends RuntimeException {
     public InvoiceCreationException(String message) {
         super(message);
     }
+    public InvoiceCreationException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

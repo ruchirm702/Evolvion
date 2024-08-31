@@ -8,7 +8,7 @@ import dev.ruchir.evolvion_accounts_service.mappers.PaymentMapper;
 import dev.ruchir.evolvion_accounts_service.models.Core.Payment;
 import dev.ruchir.evolvion_accounts_service.repository.PaymentRepository;
 import dev.ruchir.evolvion_accounts_service.service.Interface.PaymentService;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +19,6 @@ public class PaymentServiceImpl implements PaymentService {
     private final PaymentRepository paymentRepository;
     private final PaymentMapper paymentMapper;
 
-    @Autowired
     public PaymentServiceImpl(PaymentRepository paymentRepository, PaymentMapper paymentMapper) {
         this.paymentRepository = paymentRepository;
         this.paymentMapper = paymentMapper;
