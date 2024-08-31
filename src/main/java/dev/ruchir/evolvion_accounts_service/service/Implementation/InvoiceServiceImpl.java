@@ -8,12 +8,14 @@ import dev.ruchir.evolvion_accounts_service.mappers.InvoiceMapper;
 import dev.ruchir.evolvion_accounts_service.models.Core.Invoice;
 import dev.ruchir.evolvion_accounts_service.repository.InvoiceRepository;
 import dev.ruchir.evolvion_accounts_service.service.Interface.InvoiceService;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Service
+@Validated
 public class InvoiceServiceImpl implements InvoiceService {
 
     private final InvoiceRepository invoiceRepository;
@@ -24,9 +26,8 @@ public class InvoiceServiceImpl implements InvoiceService {
         this.invoiceMapper = invoiceMapper;
     }
 
-    @Transactional
     @Override
-    public InvoiceDTO createInvoice(InvoiceDTO invoiceDTO) throws InvoiceCreationException {
+    public InvoiceDTO createInvoice(@Valid InvoiceDTO invoiceDTO) throws InvoiceCreationException {
         try {
             Invoice invoice = invoiceMapper.toEntity(invoiceDTO);
             Invoice savedInvoice = invoiceRepository.save(invoice);
@@ -37,7 +38,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public InvoiceDTO updateInvoice(Long id, InvoiceDTO invoiceDTO) throws InvoiceNotFoundException, InvoiceUpdateException {
+    public InvoiceDTO updateInvoice(Long id, @Valid InvoiceDTO invoiceDTO) throws InvoiceNotFoundException, InvoiceUpdateException {
         Invoice existingInvoice = invoiceRepository.findById(id)
                 .orElseThrow(() -> new InvoiceNotFoundException("Invoice not found with id: " + id));
         try {

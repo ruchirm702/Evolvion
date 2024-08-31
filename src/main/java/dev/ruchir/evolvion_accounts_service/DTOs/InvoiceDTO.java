@@ -6,6 +6,9 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 
 @Getter
@@ -15,10 +18,16 @@ import java.time.LocalDateTime;
 public class InvoiceDTO {
 
     private Long id;
+
+    @NotBlank(message = "Invoice number cannot be blank")
     private String invoiceNumber;
+
+    @NotNull(message = "Amount cannot be null")
+    @Positive(message = "Amount must be positive")
     private Double amount;
+
     private InvoiceStatus status;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
 }

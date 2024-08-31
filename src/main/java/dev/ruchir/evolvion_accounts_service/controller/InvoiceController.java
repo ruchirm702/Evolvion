@@ -2,57 +2,42 @@ package dev.ruchir.evolvion_accounts_service.controller;
 
 import dev.ruchir.evolvion_accounts_service.DTOs.InvoiceDTO;
 import dev.ruchir.evolvion_accounts_service.service.Interface.InvoiceService;
-import dev.ruchir.evolvion_accounts_service.controller_advise.Invoice_Exceptions.InvoiceCreationException;
-import dev.ruchir.evolvion_accounts_service.controller_advise.Invoice_Exceptions.InvoiceNotFoundException;
-import dev.ruchir.evolvion_accounts_service.controller_advise.Invoice_Exceptions.InvoiceUpdateException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/invoices")
+@Validated
 public class InvoiceController {
 
     private final InvoiceService invoiceService;
 
-    @Autowired
     public InvoiceController(InvoiceService invoiceService) {
         this.invoiceService = invoiceService;
     }
 
     @PostMapping
-    public ResponseEntity<InvoiceDTO> createInvoice(@RequestBody InvoiceDTO invoiceDTO) {
-        try {
-            InvoiceDTO createdInvoice = invoiceService.createInvoice(invoiceDTO);
-            return new ResponseEntity<>(createdInvoice, HttpStatus.CREATED);
-        } catch (InvoiceCreationException e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<InvoiceDTO> createInvoice(@Valid @RequestBody InvoiceDTO invoiceDTO) {
+        InvoiceDTO createdInvoice = invoiceService.createInvoice(invoiceDTO);
+        return new ResponseEntity<>(createdInvoice, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<InvoiceDTO> updateInvoice(@PathVariable Long id, @RequestBody InvoiceDTO invoiceDTO) {
-        try {
-            InvoiceDTO updatedInvoice = invoiceService.updateInvoice(id, invoiceDTO);
-            return new ResponseEntity<>(updatedInvoice, HttpStatus.OK);
-        } catch (InvoiceNotFoundException e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        } catch (InvoiceUpdateException e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<InvoiceDTO> updateInvoice(@PathVariable("id") @NotNull Long id, @Valid @RequestBody InvoiceDTO invoiceDTO) {
+        InvoiceDTO updatedInvoice = invoiceService.updateInvoice(id, invoiceDTO);
+        return new ResponseEntity<>(updatedInvoice, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<InvoiceDTO> getInvoiceById(@PathVariable Long id) {
-        try {
-            InvoiceDTO invoiceDTO = invoiceService.getInvoiceById(id);
-            return new ResponseEntity<>(invoiceDTO, HttpStatus.OK);
-        } catch (InvoiceNotFoundException e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<InvoiceDTO> getInvoiceById(@PathVariable("id") @NotNull Long id) {
+        InvoiceDTO invoice = invoiceService.getInvoiceById(id);
+        return new ResponseEntity<>(invoice, HttpStatus.OK);
     }
 
     @GetMapping
@@ -62,12 +47,8 @@ public class InvoiceController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteInvoice(@PathVariable Long id) {
-        try {
-            invoiceService.deleteInvoice(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (InvoiceNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<Void> deleteInvoice(@PathVariable("id") @NotNull Long id) {
+        invoiceService.deleteInvoice(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
