@@ -4,4 +4,7 @@ public class PaymentUpdateException extends RuntimeException {
     public PaymentUpdateException(String message) {
         super(message);
     }
+    public PaymentUpdateException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }
