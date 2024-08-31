@@ -9,6 +9,7 @@ import dev.ruchir.evolvion_accounts_service.models.Core.Payment;
 import dev.ruchir.evolvion_accounts_service.repository.PaymentRepository;
 import dev.ruchir.evolvion_accounts_service.service.Interface.PaymentService;
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class PaymentServiceImpl implements PaymentService {
         this.paymentMapper = paymentMapper;
     }
 
+    @Transactional
     @Override
     public PaymentDTO createPayment(PaymentDTO paymentDTO) throws PaymentCreationException {
         try {

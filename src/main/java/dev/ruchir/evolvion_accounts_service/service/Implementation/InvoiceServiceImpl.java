@@ -8,6 +8,7 @@ import dev.ruchir.evolvion_accounts_service.mappers.InvoiceMapper;
 import dev.ruchir.evolvion_accounts_service.models.Core.Invoice;
 import dev.ruchir.evolvion_accounts_service.repository.InvoiceRepository;
 import dev.ruchir.evolvion_accounts_service.service.Interface.InvoiceService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         this.invoiceMapper = invoiceMapper;
     }
 
+    @Transactional
     @Override
     public InvoiceDTO createInvoice(InvoiceDTO invoiceDTO) throws InvoiceCreationException {
         try {

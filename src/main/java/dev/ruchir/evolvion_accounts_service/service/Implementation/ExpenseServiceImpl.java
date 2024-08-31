@@ -8,6 +8,7 @@ import dev.ruchir.evolvion_accounts_service.mappers.ExpenseMapper;
 import dev.ruchir.evolvion_accounts_service.models.Core.Expense;
 import dev.ruchir.evolvion_accounts_service.repository.ExpenseRepository;
 import dev.ruchir.evolvion_accounts_service.service.Interface.ExpenseService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class ExpenseServiceImpl implements ExpenseService {
         this.expenseMapper = expenseMapper;
     }
 
+    @Transactional
     @Override
     public ExpenseDTO createExpense(ExpenseDTO expenseDTO) throws ExpenseCreationException {
         try {
