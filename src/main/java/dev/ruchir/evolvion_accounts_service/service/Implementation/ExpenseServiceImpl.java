@@ -8,26 +8,26 @@ import dev.ruchir.evolvion_accounts_service.mappers.ExpenseMapper;
 import dev.ruchir.evolvion_accounts_service.models.Core.Expense;
 import dev.ruchir.evolvion_accounts_service.repository.ExpenseRepository;
 import dev.ruchir.evolvion_accounts_service.service.Interface.ExpenseService;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Service
+@Validated
 public class ExpenseServiceImpl implements ExpenseService {
 
     private final ExpenseRepository expenseRepository;
     private final ExpenseMapper expenseMapper;
-
 
     public ExpenseServiceImpl(ExpenseRepository expenseRepository, ExpenseMapper expenseMapper) {
         this.expenseRepository = expenseRepository;
         this.expenseMapper = expenseMapper;
     }
 
-    @Transactional
     @Override
-    public ExpenseDTO createExpense(ExpenseDTO expenseDTO) throws ExpenseCreationException {
+    public ExpenseDTO createExpense(@Valid ExpenseDTO expenseDTO) throws ExpenseCreationException {
         try {
             Expense expense = expenseMapper.toEntity(expenseDTO);
             Expense savedExpense = expenseRepository.save(expense);
@@ -38,7 +38,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public ExpenseDTO updateExpense(Long id, ExpenseDTO expenseDTO) throws ExpenseNotFoundException, ExpenseUpdateException {
+    public ExpenseDTO updateExpense(Long id, @Valid ExpenseDTO expenseDTO) throws ExpenseNotFoundException, ExpenseUpdateException {
         Expense existingExpense = expenseRepository.findById(id)
                 .orElseThrow(() -> new ExpenseNotFoundException("Expense not found with id: " + id));
         try {
