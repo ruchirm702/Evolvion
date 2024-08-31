@@ -4,4 +4,7 @@ public class ExpenseUpdateException extends RuntimeException {
     public ExpenseUpdateException(String message) {
         super(message);
     }
+    public ExpenseUpdateException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

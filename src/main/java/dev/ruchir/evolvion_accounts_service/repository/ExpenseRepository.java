@@ -12,8 +12,6 @@ import java.util.Optional;
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
     Optional<Expense> findByDescription(String description);
-
     boolean existsByDescription(String description);
-
     List<Expense> findByCategory(ExpenseCategory category);
 }
