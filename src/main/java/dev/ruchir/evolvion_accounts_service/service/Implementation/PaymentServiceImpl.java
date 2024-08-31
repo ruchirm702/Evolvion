@@ -8,13 +8,14 @@ import dev.ruchir.evolvion_accounts_service.mappers.PaymentMapper;
 import dev.ruchir.evolvion_accounts_service.models.Core.Payment;
 import dev.ruchir.evolvion_accounts_service.repository.PaymentRepository;
 import dev.ruchir.evolvion_accounts_service.service.Interface.PaymentService;
-
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Service
+@Validated
 public class PaymentServiceImpl implements PaymentService {
 
     private final PaymentRepository paymentRepository;
@@ -25,9 +26,8 @@ public class PaymentServiceImpl implements PaymentService {
         this.paymentMapper = paymentMapper;
     }
 
-    @Transactional
     @Override
-    public PaymentDTO createPayment(PaymentDTO paymentDTO) throws PaymentCreationException {
+    public PaymentDTO createPayment(@Valid PaymentDTO paymentDTO) throws PaymentCreationException {
         try {
             Payment payment = paymentMapper.toEntity(paymentDTO);
             Payment savedPayment = paymentRepository.save(payment);
@@ -38,7 +38,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public PaymentDTO updatePayment(Long id, PaymentDTO paymentDTO) throws PaymentNotFoundException, PaymentUpdateException {
+    public PaymentDTO updatePayment(Long id, @Valid PaymentDTO paymentDTO) throws PaymentNotFoundException, PaymentUpdateException {
         Payment existingPayment = paymentRepository.findById(id)
                 .orElseThrow(() -> new PaymentNotFoundException("Payment not found with id: " + id));
         try {

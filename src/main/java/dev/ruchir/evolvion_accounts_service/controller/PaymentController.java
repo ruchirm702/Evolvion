@@ -4,12 +4,16 @@ import dev.ruchir.evolvion_accounts_service.DTOs.PaymentDTO;
 import dev.ruchir.evolvion_accounts_service.service.Interface.PaymentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/payments")
+@Validated
 public class PaymentController {
 
     private final PaymentService paymentService;
@@ -19,32 +23,32 @@ public class PaymentController {
     }
 
     @PostMapping
-    public ResponseEntity<PaymentDTO> createPayment(@RequestBody PaymentDTO paymentDTO) {
+    public ResponseEntity<PaymentDTO> createPayment(@Valid @RequestBody PaymentDTO paymentDTO) {
         PaymentDTO createdPayment = paymentService.createPayment(paymentDTO);
         return new ResponseEntity<>(createdPayment, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PaymentDTO> updatePayment(@PathVariable Long id, @RequestBody PaymentDTO paymentDTO) {
+    public ResponseEntity<PaymentDTO> updatePayment(@PathVariable("id") @NotNull Long id, @Valid @RequestBody PaymentDTO paymentDTO) {
         PaymentDTO updatedPayment = paymentService.updatePayment(id, paymentDTO);
-        return ResponseEntity.ok(updatedPayment);
+        return new ResponseEntity<>(updatedPayment, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PaymentDTO> getPaymentById(@PathVariable Long id) {
-        PaymentDTO paymentDTO = paymentService.getPaymentById(id);
-        return ResponseEntity.ok(paymentDTO);
+    public ResponseEntity<PaymentDTO> getPaymentById(@PathVariable("id") @NotNull Long id) {
+        PaymentDTO payment = paymentService.getPaymentById(id);
+        return new ResponseEntity<>(payment, HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity<List<PaymentDTO>> getAllPayments() {
         List<PaymentDTO> payments = paymentService.getAllPayments();
-        return ResponseEntity.ok(payments);
+        return new ResponseEntity<>(payments, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePayment(@PathVariable Long id) {
+    public ResponseEntity<Void> deletePayment(@PathVariable("id") @NotNull Long id) {
         paymentService.deletePayment(id);
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
