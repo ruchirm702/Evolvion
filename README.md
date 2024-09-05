@@ -162,4 +162,3 @@ We welcome contributions to the Evolvion Accounts Service project! To contribute
 3. Make your changes and commit them with clear messages.
 4. Push your changes to your fork.
 5. Submit a pull request to the main repository.
-
